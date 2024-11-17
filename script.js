@@ -180,27 +180,27 @@ async function smoothScroll(page) {
 // Função principal
 async function fetchAndSaveNews() {
     try {
-        // // Inicializa o Puppeteer
-        // const browser = await puppeteer.launch({ headless: false });
-        // const page = await browser.newPage();
+        // Inicializa o Puppeteer
+        const browser = await puppeteer.launch({ headless: false });
+        const page = await browser.newPage();
 
-        // // Acessa a página de notícias do Bing
-        // await page.goto('https://www.bing.com/news', { waitUntil: 'domcontentloaded' });
+        // Acessa a página de notícias do Bing
+        await page.goto('https://www.bing.com/news', { waitUntil: 'domcontentloaded' });
 
-        // // Capturar títulos de todas as categorias
-        // const titles = await captureTitles(page);
+        // Capturar títulos de todas as categorias
+        const titles = await captureTitles(page);
 
-        // // Reescrever os títulos com a API Gemini
-        // const updatedTitles = await processWithGemini(titles);
+        // Reescrever os títulos com a API Gemini
+        const updatedTitles = await processWithGemini(titles);
 
-        // // Salvar os títulos reescritos no arquivo JSON
+        // Salvar os títulos reescritos no arquivo JSON
         const filePath = path.join(__dirname, 'news.json');
-        // saveTitlesToFile(filePath, updatedTitles || titles);
+        saveTitlesToFile(filePath, updatedTitles || titles);
 
-        // console.log(`Arquivo de notícias atualizado em: ${filePath}`);
+        console.log(`Arquivo de notícias atualizado em: ${filePath}`);
 
-        // // Fecha o navegador
-        // await browser.close();
+        // Fecha o navegador
+        await browser.close();
 
         exec('git add .', (addError, stdout, stderr) => {
             if (addError) {
