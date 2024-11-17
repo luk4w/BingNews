@@ -1,0 +1,10 @@
+{
+  "name": "news",
+  "version": "1.0.0",
+  "main": "script.js",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "puppeteer": "^23.8.0"
+  }
+}
