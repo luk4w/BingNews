@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { exec } = require('child_process');
 
 // Função para pausar a execução por um determinado tempo (em milissegundos)
 function sleep(ms) {
@@ -76,12 +77,9 @@ async function processWithGemini(titles) {
 }
 
 // Função para salvar os títulos em um arquivo JSON (sobrescrevendo)
-function saveTitlesToFile(titles) {
-    const filePath = path.join(__dirname, 'news.json');
-
+function saveTitlesToFile(filePath, titles) {
     fs.writeFileSync(filePath, JSON.stringify(titles, null, 2));
     console.log(`Títulos salvos em: ${filePath}`);
-    return filePath;
 }
 
 // Função para capturar títulos de uma categoria específica
@@ -182,29 +180,58 @@ async function smoothScroll(page) {
 // Função principal
 async function fetchAndSaveNews() {
     try {
-        // Inicializa o Puppeteer
-        const browser = await puppeteer.launch({ headless: false });
-        const page = await browser.newPage();
+        // // Inicializa o Puppeteer
+        // const browser = await puppeteer.launch({ headless: false });
+        // const page = await browser.newPage();
 
-        // Acessa a página de notícias do Bing
-        await page.goto('https://www.bing.com/news', { waitUntil: 'domcontentloaded' });
+        // // Acessa a página de notícias do Bing
+        // await page.goto('https://www.bing.com/news', { waitUntil: 'domcontentloaded' });
 
-        // Capturar títulos de todas as categorias
-        const titles = await captureTitles(page);
+        // // Capturar títulos de todas as categorias
+        // const titles = await captureTitles(page);
 
-        // Reescrever os títulos com a API Gemini
-        const updatedTitles = await processWithGemini(titles);
+        // // Reescrever os títulos com a API Gemini
+        // const updatedTitles = await processWithGemini(titles);
 
-        // Salvar os títulos reescritos no arquivo JSON
-        const filePath = saveTitlesToFile(updatedTitles || titles);
+        // // Salvar os títulos reescritos no arquivo JSON
+        const filePath = path.join(__dirname, 'news.json');
+        // saveTitlesToFile(filePath, updatedTitles || titles);
 
-        console.log(`Arquivo de notícias atualizado em: ${filePath}`);
+        // console.log(`Arquivo de notícias atualizado em: ${filePath}`);
 
-        // Fecha o navegador
-        await browser.close();
+        // // Fecha o navegador
+        // await browser.close();
+
+        exec('git add .', (addError, stdout, stderr) => {
+            if (addError) {
+                console.error(`Erro ao adicionar os arquivos: ${stderr || addError.message}`);
+                return;
+            }
+            console.log(stdout || 'Todos os arquivos modificados foram adicionados ao stage com sucesso.');
+        
+            exec('git commit -m "Atualização do repositório"', (commitError, stdout, stderr) => {
+                if (commitError) {
+                    console.error(`Erro ao fazer o commit: ${stderr || commitError.message}`);
+                    return;
+                }
+                console.log(stdout || 'Commit realizado com sucesso.');
+        
+                exec('git push', (pushError, stdout, stderr) => {
+                    if (pushError) {
+                        console.error(`Erro ao fazer o push: ${stderr || pushError.message}`);
+                        return;
+                    }
+                    console.log(stdout || 'Push realizado com sucesso.');
+                });
+            });
+        });
+
     } catch (error) {
         console.error("Erro durante a execução:", error.message);
     }
+
+
+
 }
 
 // Executa a função principal
