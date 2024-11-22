@@ -33,7 +33,8 @@ async function processWithGemini(titles) {
     const genAI = new GoogleGenerativeAI(apiKey);
 
     // Formatar o prompt com base nos títulos fornecidos
-    const promptText = `Aqui estão os títulos de algumas notícias: ${titles.join(", ")}. 
+    const promptText = `${titles.join(", ")}
+
     Faça uma reescrita diferente desses titulos de maneira breve e direta. Não use pontos finais ou vírgulas.
     Você tem total liberdade para a criatividade, ou seja, para mudar o sentido da pesquisa, caso seja necessário.
 
@@ -193,6 +194,12 @@ async function fetchAndSaveNews() {
         // Remove os titulos em branco
         titles = titles.filter(title => title.length > 0);
 
+        // Remover até ficar apenas 100 títulos
+        while (titles.length > 100) {
+            const index = Math.floor(Math.random() * titles.length);
+            titles.splice(index, 1);
+        }
+
         // Reescrever os títulos com a API Gemini
         const updatedTitles = await processWithGemini(titles);
 
@@ -211,14 +218,14 @@ async function fetchAndSaveNews() {
                 return;
             }
             console.log(stdout || 'Todos os arquivos modificados foram adicionados ao stage com sucesso.');
-        
+
             exec('git commit -m "Atualização do repositório"', (commitError, stdout, stderr) => {
                 if (commitError) {
                     console.error(`Erro ao fazer o commit: ${stderr || commitError.message}`);
                     return;
                 }
                 console.log(stdout || 'Commit realizado com sucesso.');
-        
+
                 exec('git push', (pushError, stdout, stderr) => {
                     if (pushError) {
                         console.error(`Erro ao fazer o push: ${stderr || pushError.message}`);
