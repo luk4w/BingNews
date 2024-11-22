@@ -189,7 +189,10 @@ async function fetchAndSaveNews() {
         await page.goto('https://www.bing.com/news', { waitUntil: 'domcontentloaded' });
 
         // Capturar títulos de todas as categorias
-        const titles = await captureTitles(page);
+        let titles = await captureTitles(page);
+
+        // Remove os titulos em branco
+        titles = titles.filter(title => title.length > 0);
 
         // Reescrever os títulos com a API Gemini
         const updatedTitles = await processWithGemini(titles);
