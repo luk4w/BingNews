@@ -34,11 +34,10 @@ async function processWithGemini(titles) {
 
     // Formatar o prompt com base nos títulos fornecidos
     const promptText = `Aqui estão os títulos de algumas notícias: ${titles.join(", ")}. 
-    Faça uma reescrita diferente desses titulos de maneira breve e direta.
-    Não use pontos finais ou vírgulas.
+    Faça uma reescrita diferente desses titulos de maneira breve e direta. Não use pontos finais ou vírgulas.
     Você tem total liberdade para a criatividade, ou seja, para mudar o sentido da pesquisa, caso seja necessário.
 
-    Seguindo o formato json a seguir:
+    Entregue a resposta no formato json:
     [
     "Titulo1",
     "Titulo2",
