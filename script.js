@@ -194,7 +194,7 @@ async function fetchAndSaveNews() {
         // Remove os titulos em branco
         titles = titles.filter(title => title.length > 0);
 
-        // Remover até ficar apenas 150 títulos
+        // Remove para não ultrapassar o limite de 150 títulos
         while (titles.length > 150) {
             const index = Math.floor(Math.random() * titles.length);
             titles.splice(index, 1);
