@@ -182,7 +182,7 @@ async function smoothScroll(page) {
 async function fetchAndSaveNews() {
     try {
         // Inicializa o Puppeteer
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
 
         // Acessa a página de notícias do Bing
@@ -239,9 +239,6 @@ async function fetchAndSaveNews() {
     } catch (error) {
         console.error("Erro durante a execução:", error.message);
     }
-
-
-
 }
 
 // Executa a função principal
