@@ -2,7 +2,9 @@
 
 ## Descrição
 
-**BingNews** é um projeto desenvolvido em Node.js que utiliza o Puppeteer para coletar notícias diretamente do [Bing News](https://www.bing.com/news). Após a coleta, os títulos das notícias são reescritos utilizando a API do [Google Gemini](https://developers.google.com/generative-ai), garantindo títulos únicos e otimizados. O resultado final é salvo em um arquivo JSON e automaticamente commitado e enviado para um repositório Git.
+BingNews é um projeto desenvolvido em Node.js que utiliza o Puppeteer para coletar notícias do Bing News. 
+Após a coleta, os títulos das notícias são reescritos com a API do Google Gemini, para garantir títulos diferentes dos capturados. 
+O resultado final é salvo em um arquivo JSON, commitado e enviado para um repositório Git.
 
 ## Funcionalidades
 
